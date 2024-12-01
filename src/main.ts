@@ -21,8 +21,8 @@ async function bootstrap() {
   };
   app.use(cors(corsOptions));
 
-    // Настройка Swagger
-    const config = new DocumentBuilder()
+  // Настройка Swagger
+  const config = new DocumentBuilder()
     .setTitle('SnowShop API')
     .setDescription('This api for snowShop-backend')
     .setVersion('0.0.1')
