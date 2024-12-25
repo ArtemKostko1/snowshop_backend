@@ -3,7 +3,7 @@ import { TokenService } from './token.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RolesService } from '../roles/roles.service';
+//import { RolesService } from '../roles/roles.service';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
@@ -17,12 +17,15 @@ import { PrismaService } from '../prisma/prisma.service';
 			imports: [ConfigModule],
 			useFactory: (configService: ConfigService) => ({
 				secret: configService.get<string>('jwtSecret'),
-				signOptions: {expiresIn: configService.get<string>('jwtExpire')},
+				signOptions: {
+					expiresIn: configService.get<string>('jwtExpire'),
+				},
 			}),
 			inject: [ConfigService],
 		}),
 	],
-  	providers: [TokenService, JwtService, RolesService, PrismaService],
+	//providers: [TokenService, JwtService, RolesService, PrismaService],
+	providers: [TokenService, JwtService, PrismaService],
 	exports: [TokenService],
 })
 export class TokenModule {}

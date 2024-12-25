@@ -1,39 +1,56 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsInt, IsString, IsDate, IsEmail, IsOptional } from 'class-validator';
+import {
+	IsInt,
+	IsString,
+	IsDate,
+	IsEmail,
+	IsOptional,
+	IsNumber,
+} from 'class-validator';
 
 export class UserResponse {
-  @ApiProperty()
-  @IsInt()
-  id: number;
+	@ApiProperty()
+	@IsInt()
+	id: number;
 
-  @ApiProperty()
-  @IsString()
-  username: string;
+	@ApiProperty()
+	@IsString()
+	userName: string;
 
-  @ApiPropertyOptional()
-  @IsEmail()
-  email?: string;
+	@ApiProperty()
+	@IsString()
+	password: string;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsInt()
-  division_id?: number;
+	@ApiProperty()
+	@IsString()
+	name: string;
 
-  @ApiProperty()
-  @IsInt()
-  role_id: number;
+	@ApiProperty()
+	@IsInt()
+	roleId: number;
 
-  @ApiProperty()
-  @IsInt()
-  status: number;
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsInt()
+	sexId?: number;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsDate()
-  inserted_at?: Date;
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsNumber()
+	age?: number;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsDate()
-  updated_at?: Date;
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsEmail()
+	email?: string;
+
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsDate()
+	createdAt?: Date;
+
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsDate()
+	updatedAt?: Date;
 }

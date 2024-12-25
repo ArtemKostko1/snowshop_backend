@@ -1,5 +1,5 @@
 import {
-	BadRequestException,
+	//BadRequestException,
 	HttpException,
 	HttpStatus,
 	Injectable,
@@ -9,7 +9,6 @@ import { HashPasswordService } from '../../common/utils/hash-password.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CLIENT_USER_FIELDS } from '../../common/constants/user-fields';
 import { APP_USER_FIELDS } from '../../common/constants/user-fields';
-import { v4 as uuidv4 } from 'uuid';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserResponse } from './dto/responses/user.response';
 import { UserDto } from './entities/user.entity';
@@ -21,7 +20,7 @@ import { PrismaKnownException } from '../../common/utils/ExceptionFilter/prismaK
 import { PrismaValidationException } from '../../common/utils/ExceptionFilter/prismaValidationException';
 
 @Injectable()
-export class UsersService {
+export class UserService {
 	constructor(
 		private readonly prismaService: PrismaService,
 		private readonly hashPasswordService: HashPasswordService,
@@ -36,15 +35,15 @@ export class UsersService {
 				createUserDto.password,
 			);
 			// Создание пользователя и возврат его клиенту
-			return await this.prismaService.users.create({
+			return await this.prismaService.user.create({
 				data: {
-					username: createUserDto.username,
-					email: createUserDto.email,
-					division_id: createUserDto.division_id,
-					role_id: createUserDto.role_id,
-					status: createUserDto.status,
-					uuid: uuidv4(),
+					userName: createUserDto.userName,
 					password: hashedPassword,
+					name: createUserDto.name,
+					roleId: createUserDto.roleId,
+					sexId: createUserDto.sexId,
+					age: createUserDto.age,
+					email: createUserDto.email,
 				},
 				// Выборка тех полей, которые нужно вернуть (исключены password и uuid)
 				select: {
@@ -65,7 +64,7 @@ export class UsersService {
 
 	public async getAllUsers(): Promise<UserResponse[]> {
 		try {
-			return await this.prismaService.users.findMany({
+			return await this.prismaService.user.findMany({
 				select: {
 					...CLIENT_USER_FIELDS,
 				},
@@ -84,7 +83,7 @@ export class UsersService {
 
 	public async getUserById(id: number): Promise<UserResponse> {
 		try {
-			const user = await this.prismaService.users.findUnique({
+			const user = await this.prismaService.user.findUnique({
 				where: { id },
 				select: {
 					...CLIENT_USER_FIELDS,
@@ -111,10 +110,10 @@ export class UsersService {
 		}
 	}
 
-	public async getUserByUsername(username: string): Promise<UserDto> {
+	public async getUserByUserName(userName: string): Promise<UserDto> {
 		try {
-			return await this.prismaService.users.findUnique({
-				where: { username },
+			return await this.prismaService.user.findUnique({
+				where: { userName },
 				select: {
 					...APP_USER_FIELDS,
 				},
@@ -147,7 +146,7 @@ export class UsersService {
 			}
 
 			// Обновление пользователя по Id и возврат его клиенту
-			return await this.prismaService.users.update({
+			return await this.prismaService.user.update({
 				where: { id },
 				data: updateUserDto,
 				// Выборка полей, которые необходимо вернуть клиенту
@@ -169,7 +168,7 @@ export class UsersService {
 
 	public async deleteUser(id: number): Promise<boolean> {
 		try {
-			await this.prismaService.users.delete({
+			await this.prismaService.user.delete({
 				where: { id },
 			});
 			return true;

@@ -1,38 +1,50 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEmail, IsInt, IsOptional, IsString } from 'class-validator';
+import {
+	IsEmail,
+	IsInt,
+	IsNumber,
+	IsOptional,
+	IsString,
+} from 'class-validator';
 
 export class UserResponse {
-  @ApiProperty()
-  @IsInt()
-  id: number;
+	@ApiProperty()
+	@IsInt()
+	id: number;
 
-  @ApiProperty()
-  @IsString()
-  username: string;
+	@ApiProperty()
+	@IsString()
+	userName: string;
 
-  @ApiPropertyOptional()
-  @IsEmail()
-  email?: string;
+	@ApiProperty()
+	@IsString()
+	name: string;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsInt()
-  division_id?: number;
+	@ApiProperty()
+	@IsInt()
+	roleId: number;
 
-  @ApiProperty()
-  @IsString()
-  role: string;
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsInt()
+	sexId?: number;
 
-  @ApiProperty()
-  @IsInt()
-  status: number;
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsNumber()
+	age?: number;
+
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsEmail()
+	email?: string;
 }
 
 export class AuthUserResponse {
-  @ApiProperty()
-  user: UserResponse
+	@ApiProperty()
+	user: UserResponse;
 
-  @ApiProperty()
-  @IsString()
-  token: string;
+	@ApiProperty()
+	@IsString()
+	token: string;
 }

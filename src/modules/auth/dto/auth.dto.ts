@@ -1,54 +1,69 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+	IsDate,
+	IsEmail,
+	IsInt,
+	IsNotEmpty,
+	IsNumber,
+	IsOptional,
+	IsString,
+} from 'class-validator';
 
 export class RegisterUserDto {
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  username: string;
+	@ApiProperty()
+	@IsNotEmpty()
+	@IsString()
+	userName: string;
 
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  email?: string;
+	@ApiProperty()
+	@IsNotEmpty()
+	@IsString()
+	password: string;
 
-  @ApiProperty()
-  @IsOptional()
-  @IsInt()
-  division_id?: number;
+	@ApiProperty()
+	@IsNotEmpty()
+	@IsString()
+	name: string;
 
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsInt()
-  role_id: number;
+	@ApiProperty()
+	@IsNotEmpty()
+	@IsInt()
+	roleId: number;
 
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsInt()
-  status: number;
+	@ApiPropertyOptional()
+	@IsNotEmpty()
+	@IsInt()
+	sexId?: number;
 
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  password: string;
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsNumber()
+	age?: number;
 
-  @ApiProperty()
-  @IsDate()
-  inserted_at: Date;
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsEmail()
+	email?: string;
 
-  @ApiProperty()
-  @IsDate()
-  updated_at: Date;
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsDate()
+	createdAt?: Date;
+
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsDate()
+	updatedAt?: Date;
 }
 
 export class LoginUserDto {
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  username: string;
+	@ApiProperty()
+	@IsNotEmpty()
+	@IsString()
+	username: string;
 
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  password: string;
+	@ApiProperty()
+	@IsNotEmpty()
+	@IsString()
+	password: string;
 }

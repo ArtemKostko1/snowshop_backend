@@ -1,33 +1,33 @@
-import { IsDate, IsEmail, IsInt, IsString } from 'class-validator';
+import { IsDate, IsEmail, IsInt, IsNumber, IsString } from 'class-validator';
 
 export class UserDto {
-  @IsInt()
-  id: number;
+	@IsInt()
+	id: number;
 
-  @IsString()
-  username: string;
+	@IsString()
+	userName: string;
 
-  @IsEmail()
-  email?: string;
+	@IsString()
+	password: string;
 
-  @IsInt()
-  division_id?: number;
+	@IsString()
+	name: string;
 
-  @IsInt()
-  role_id: number;
+	@IsInt()
+	roleId: number;
 
-  @IsInt()
-  status: number;
+	@IsInt()
+	sexId?: number;
 
-  @IsString()
-  uuid: string;
+	@IsNumber()
+	age?: number;
 
-  @IsString()
-  password: string;
+	@IsEmail()
+	email?: string;
 
-  @IsDate()
-  inserted_at?: Date;
+	@IsDate()
+	createdAt?: Date;
 
-  @IsDate()
-  updated_at?: Date;
+	@IsDate()
+	updatedAt?: Date;
 }

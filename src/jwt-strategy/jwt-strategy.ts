@@ -6,15 +6,15 @@ import { IJwtPaylod, IUserJWT } from '../jwt-strategy/dto/jwt.dto';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly configService: ConfigService) {
-    super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: false,
-      secretOrKey: configService.get<string>('jwtSecret'),
-    });
-  }
+	constructor(private readonly configService: ConfigService) {
+		super({
+			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+			ignoreExpiration: false,
+			secretOrKey: configService.get<string>('jwtSecret'),
+		});
+	}
 
-  async validate(payload: IJwtPaylod): Promise<IUserJWT> {
-    return { ...payload.user };
-  }
+	async validate(payload: IJwtPaylod): Promise<IUserJWT> {
+		return { ...payload.user };
+	}
 }

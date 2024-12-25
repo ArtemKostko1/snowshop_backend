@@ -1,37 +1,46 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+	IsEmail,
+	IsInt,
+	IsNotEmpty,
+	IsNumber,
+	IsOptional,
+	IsString,
+} from 'class-validator';
 
 export class UpdateUserDto {
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  username?: string;
+	@ApiPropertyOptional()
+	@IsNotEmpty()
+	@IsString()
+	userName?: string;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsEmail()
-  email?: string;
+	@ApiPropertyOptional()
+	@IsNotEmpty()
+	@IsString()
+	password?: string;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsInt()
-  division_id?: number;
+	@ApiPropertyOptional()
+	@IsNotEmpty()
+	@IsString()
+	name?: string;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsNotEmpty()
-  @IsInt()
-  role_id?: number;
+	@ApiPropertyOptional()
+	@IsNotEmpty()
+	@IsInt()
+	roleId?: number;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsNotEmpty()
-  @IsInt()
-  status?: number;
+	@ApiPropertyOptional()
+	@IsNotEmpty()
+	@IsInt()
+	sexId?: number;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
-  password?: string;
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsNumber()
+	age?: number;
+
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsEmail()
+	email?: string;
 }
