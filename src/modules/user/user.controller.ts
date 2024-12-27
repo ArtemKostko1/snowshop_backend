@@ -17,14 +17,14 @@ import { UserResponse } from './dto/responses/user.response';
 import { UserService } from './user.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
-//import { RolesGuard } from 'src/guards/roles.guard';
-//import { Roles } from 'src/common/decorators/decorators';
-//import { Role } from 'src/common/constants/role.enum';
+import { RolesGuard } from 'src/guards/roles.guard';
+import { Roles } from 'src/common/decorators/decorators';
+import { Role } from 'src/common/constants/role.enum';
 
 @Controller('users')
 @ApiTags('USERS')
 @UsePipes(ValidationPipe)
-//@UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @UseGuards(JwtAuthGuard)
 export class UserController {
 	constructor(private readonly userService: UserService) {}
@@ -32,7 +32,7 @@ export class UserController {
 	// Создание пользователя
 	@Post('create')
 	@HttpCode(201)
-	//@Roles(Role.ADMIN, Role.SUPERADMIN)
+	@Roles(Role.ADMIN)
 	@ApiResponse({ status: 201, type: UserResponse })
 	async createUser(
 		@Body() createUserDto: CreateUserDto,
@@ -43,7 +43,7 @@ export class UserController {
 	// Получение всех пользователей
 	@Get()
 	@HttpCode(200)
-	//@Roles(Role.ADMIN, Role.SUPERADMIN)
+	@Roles(Role.ADMIN)
 	@ApiResponse({ status: 200, type: UserResponse })
 	async getAllUsers(): Promise<UserResponse[]> {
 		return this.userService.getAllUsers();
@@ -52,7 +52,7 @@ export class UserController {
 	// Получение пользователя по ID
 	@Get(':id')
 	@HttpCode(200)
-	//@Roles(Role.ADMIN, Role.SUPERADMIN, Role.USER)
+	@Roles(Role.ADMIN, Role.USER)
 	@ApiResponse({ status: 200, type: UserResponse })
 	async getUserById(@Param('id') id: number): Promise<UserResponse | null> {
 		return this.userService.getUserById(+id);
@@ -61,7 +61,7 @@ export class UserController {
 	// Обновление пользователя
 	@Patch(':id')
 	@HttpCode(201)
-	//@Roles(Role.ADMIN, Role.SUPERADMIN)
+	@Roles(Role.ADMIN)
 	@ApiResponse({ status: 201, type: UserResponse })
 	async updateUser(
 		@Param('id') id: number,
@@ -73,7 +73,7 @@ export class UserController {
 	// Удаление пользователя
 	@Delete(':id')
 	@HttpCode(200)
-	//@Roles(Role.ADMIN, Role.SUPERADMIN)
+	@Roles(Role.ADMIN)
 	@ApiResponse({ status: 200, type: UserResponse })
 	async deleteUser(@Param('id') id: number): Promise<boolean> {
 		return this.userService.deleteUser(+id);

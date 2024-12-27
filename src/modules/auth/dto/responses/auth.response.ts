@@ -21,8 +21,8 @@ export class UserResponse {
 	name: string;
 
 	@ApiProperty()
-	@IsInt()
-	roleId: number;
+	@IsString()
+	role: string;
 
 	@ApiPropertyOptional()
 	@IsOptional()

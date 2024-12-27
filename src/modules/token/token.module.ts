@@ -3,7 +3,7 @@ import { TokenService } from './token.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-//import { RolesService } from '../roles/roles.service';
+import { RoleService } from '../role/role.service';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
@@ -24,8 +24,7 @@ import { PrismaService } from '../prisma/prisma.service';
 			inject: [ConfigService],
 		}),
 	],
-	//providers: [TokenService, JwtService, RolesService, PrismaService],
-	providers: [TokenService, JwtService, PrismaService],
+	providers: [TokenService, JwtService, RoleService, PrismaService],
 	exports: [TokenService],
 })
 export class TokenModule {}
