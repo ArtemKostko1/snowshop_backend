@@ -60,7 +60,7 @@ export class LoginUserDto {
 	@ApiProperty()
 	@IsNotEmpty()
 	@IsString()
-	username: string;
+	userName: string;
 
 	@ApiProperty()
 	@IsNotEmpty()

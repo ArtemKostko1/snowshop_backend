@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/_app/app.module';
 import { ConfigService } from '@nestjs/config';
-import * as cors from 'cors';
+import cors from 'cors';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {

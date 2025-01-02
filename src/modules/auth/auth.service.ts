@@ -11,6 +11,7 @@ import { AppErrors } from '../../common/errors/errors';
 import * as bcrypt from 'bcrypt';
 import { AuthUserResponse } from './dto/responses/auth.response';
 import { RoleService } from '../role/role.service';
+import { SexService } from '../sex/sex.service';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +19,7 @@ export class AuthService {
 		private readonly userService: UserService,
 		private readonly tokenService: TokenService,
 		private readonly roleService: RoleService,
+		private readonly sexService: SexService,
 	) {}
 
 	// Метод регистрации пользователя
@@ -34,16 +36,25 @@ export class AuthService {
 				const createdUser = await this.userService.createUser(dto);
 
 				// Диструкторизация полей объекта existUser без поля password, createdAt и updatedAt
-				const { roleId, password, createdAt, updatedAt, ...tempUser } =
-					createdUser;
+				const {
+					roleId,
+					sexId,
+					password,
+					createdAt,
+					updatedAt,
+					...tempUser
+				} = createdUser;
 
 				const role = await this.roleService.getRoleById(
-					existUser.roleId,
+					createdUser.roleId,
 				);
+
+				const sex = await this.sexService.getSexById(createdUser.sexId);
 
 				const user = {
 					...tempUser,
 					role: role.name,
+					sex: sex.name,
 				};
 
 				// Создание JWT токена на основе payload
@@ -63,7 +74,7 @@ export class AuthService {
 		try {
 			// Получение объекта пользователя из базы данных по полю username
 			const existUser = await this.userService.getUserByUserName(
-				dto.username,
+				dto.userName,
 			);
 
 			// Проверка пользователя на его наличие в базе
@@ -82,14 +93,23 @@ export class AuthService {
 				throw new BadRequestException(AppErrors.INVALIAD_PASSWORD);
 
 			// Диструкторизация полей объекта existUser без поля password, uuid, inserted_at и updated_at
-			const { password, roleId, createdAt, updatedAt, ...tempUser } =
-				existUser;
+			const {
+				roleId,
+				sexId,
+				password,
+				createdAt,
+				updatedAt,
+				...tempUser
+			} = existUser;
 
 			const role = await this.roleService.getRoleById(existUser.roleId);
+
+			const sex = await this.sexService.getSexById(existUser.sexId);
 
 			const user = {
 				...tempUser,
 				role: role.name,
+				sex: sex.name,
 			};
 
 			// Создание JWT токена на основе payload

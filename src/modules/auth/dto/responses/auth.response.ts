@@ -26,8 +26,8 @@ export class UserResponse {
 
 	@ApiPropertyOptional()
 	@IsOptional()
-	@IsInt()
-	sexId?: number;
+	@IsString()
+	sex?: string;
 
 	@ApiPropertyOptional()
 	@IsOptional()

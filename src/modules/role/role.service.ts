@@ -15,7 +15,7 @@ export class RoleService {
 	public async getAllRoles(): Promise<RoleResponse[]> {
 		try {
 			// Выборка всех адресов и возврат их клиенту
-			return await this.prismaService.roles.findMany();
+			return await this.prismaService.role.findMany();
 		} catch (error) {
 			// Обработка специфических ошибок Prisma
 			if (error instanceof PrismaClientKnownRequestError) {
@@ -31,7 +31,7 @@ export class RoleService {
 	public async getRoleById(id: number): Promise<RoleResponse> {
 		try {
 			// Выборка адреса по Id и возврат его клиенту
-			const role = await this.prismaService.roles.findUnique({
+			const role = await this.prismaService.role.findUnique({
 				where: { id },
 			});
 
