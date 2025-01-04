@@ -7,24 +7,21 @@ import { RoleService } from '../role/role.service';
 import { TokenService } from '../token/token.service';
 import { RoleModule } from '../role/role.module';
 import { UserService } from '../user/user.service';
-import { PrismaService } from '../prisma/prisma.service';
-import { HashPasswordService } from 'src/common/utils/hash-password.service';
 import { JwtService } from '@nestjs/jwt';
-import { SexService } from '../sex/sex.service';
-import { SexModule } from '../sex/sex.module';
+import { HashPasswordService } from 'src/common/utils/hash-password.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
-	imports: [UserModule, TokenModule, RoleModule, SexModule],
+	imports: [UserModule, TokenModule, RoleModule],
 	controllers: [AuthController],
 	providers: [
-		TokenService,
-		JwtService,
 		AuthService,
+		JwtService,
+		TokenService,
 		UserService,
 		RoleService,
-		SexService,
-		PrismaService,
 		HashPasswordService,
+		PrismaService,
 	],
 })
 export class AuthModule {}

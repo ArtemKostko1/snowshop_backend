@@ -11,7 +11,6 @@ import { AppErrors } from '../../common/errors/errors';
 import * as bcrypt from 'bcrypt';
 import { AuthUserResponse } from './dto/responses/auth.response';
 import { RoleService } from '../role/role.service';
-import { SexService } from '../sex/sex.service';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +18,6 @@ export class AuthService {
 		private readonly userService: UserService,
 		private readonly tokenService: TokenService,
 		private readonly roleService: RoleService,
-		private readonly sexService: SexService,
 	) {}
 
 	// Метод регистрации пользователя
@@ -49,12 +47,9 @@ export class AuthService {
 					createdUser.roleId,
 				);
 
-				const sex = await this.sexService.getSexById(createdUser.sexId);
-
 				const user = {
 					...tempUser,
-					role: role.name,
-					sex: sex.name,
+					role: role.value,
 				};
 
 				// Создание JWT токена на основе payload
@@ -104,12 +99,9 @@ export class AuthService {
 
 			const role = await this.roleService.getRoleById(existUser.roleId);
 
-			const sex = await this.sexService.getSexById(existUser.sexId);
-
 			const user = {
 				...tempUser,
-				role: role.name,
-				sex: sex.name,
+				role: role.value,
 			};
 
 			// Создание JWT токена на основе payload
