@@ -1,46 +1,4 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import {
-	IsEmail,
-	IsInt,
-	IsNotEmpty,
-	IsNumber,
-	IsOptional,
-	IsString,
-} from 'class-validator';
+import { PartialType } from '@nestjs/swagger';
+import { CreateUserDto } from './create-user.dto';
 
-export class UpdateUserDto {
-	@ApiPropertyOptional()
-	@IsNotEmpty()
-	@IsString()
-	userName?: string;
-
-	@ApiPropertyOptional()
-	@IsNotEmpty()
-	@IsString()
-	password?: string;
-
-	@ApiPropertyOptional()
-	@IsNotEmpty()
-	@IsString()
-	name?: string;
-
-	@ApiPropertyOptional()
-	@IsNotEmpty()
-	@IsInt()
-	roleId?: number;
-
-	@ApiPropertyOptional()
-	@IsNotEmpty()
-	@IsInt()
-	sexId?: number;
-
-	@ApiPropertyOptional()
-	@IsOptional()
-	@IsNumber()
-	age?: number;
-
-	@ApiPropertyOptional()
-	@IsOptional()
-	@IsEmail()
-	email?: string;
-}
+export class UpdateUserDto extends PartialType(CreateUserDto) {}

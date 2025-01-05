@@ -36,3 +36,35 @@ model Sex {
   value String
   users User[]
 }
+
+model Product {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.VarChar(255)
+  price         Float
+  categoryId    Int
+  brandId       Int
+  size          String?  @db.VarChar(100)
+  article       String   @db.VarChar(100)
+  inStock       Boolean
+  description   String   @db.Text
+  internalCode  String   @db.VarChar(100)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  category      Category @relation(fields: [categoryId], references: [id])
+  brand         Brand    @relation(fields: [brandId], references: [id])
+}
+
+model Category {
+  id    Int     @id @default(autoincrement())
+  name  String  @db.VarChar(255)
+
+  products Product[]
+}
+
+model Brand {
+  id    Int     @id @default(autoincrement())
+  name  String  @db.VarChar(255)
+
+  products Product[]
+}

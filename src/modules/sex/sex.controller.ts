@@ -1,7 +1,6 @@
 import {
 	Controller,
 	Get,
-	Param,
 	HttpCode,
 	UseGuards,
 	UsePipes,
@@ -22,21 +21,12 @@ import { Role } from 'src/common/constants/role.enum';
 export class SexController {
 	constructor(private readonly sexService: SexService) {}
 
-	// Получение всех ролей
+	// Получение всех полов
 	@Get()
 	@HttpCode(200)
-	@Roles(Role.ADMIN)
+	@Roles(Role.ADMIN, Role.USER)
 	@ApiResponse({ status: 200, type: SexResponse })
-	async getAllRoles(): Promise<SexResponse[]> {
+	async getAllSex(): Promise<SexResponse[]> {
 		return this.sexService.getAllSex();
-	}
-
-	// Получение роли по ID
-	@Get(':id')
-	@HttpCode(200)
-	@Roles(Role.ADMIN)
-	@ApiResponse({ status: 200, type: SexResponse })
-	async getRoleById(@Param('id') id: number): Promise<SexResponse> {
-		return this.sexService.getSexById(+id);
 	}
 }

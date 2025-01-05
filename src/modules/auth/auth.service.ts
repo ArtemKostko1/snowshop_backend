@@ -4,7 +4,7 @@ import {
 	HttpStatus,
 	Injectable,
 } from '@nestjs/common';
-import { TokenService } from '../token/token.service';
+import { TokenService } from '../_token/token.service';
 import { UserService } from '../user/user.service';
 import { LoginUserDto, RegisterUserDto } from './dto/auth.dto';
 import { AppErrors } from '../../common/errors/errors';

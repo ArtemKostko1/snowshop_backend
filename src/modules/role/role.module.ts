@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { RoleController } from './role.controller';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../_prisma/prisma.service';
 import { JwtStrategy } from 'src/jwt-strategy/jwt-strategy';
 
 @Module({

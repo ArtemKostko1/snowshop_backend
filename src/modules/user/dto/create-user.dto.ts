@@ -30,7 +30,7 @@ export class CreateUserDto {
 	roleId: number;
 
 	@ApiPropertyOptional()
-	@IsNotEmpty()
+	@IsOptional()
 	@IsInt()
 	sexId?: number;
 

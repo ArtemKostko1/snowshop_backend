@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../_prisma/prisma.service';
 import { RoleResponse } from './dto/response/role.response';
 import {
 	PrismaClientKnownRequestError,
