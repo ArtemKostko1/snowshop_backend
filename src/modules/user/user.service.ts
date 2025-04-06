@@ -32,13 +32,12 @@ export class UserService {
 			// Создание пользователя и возврат его клиенту
 			return await this.prismaService.user.create({
 				data: {
-					userName: createUserDto.userName,
+					email: createUserDto.email,
 					password: hashedPassword,
 					name: createUserDto.name,
 					roleId: createUserDto.roleId,
 					sexId: createUserDto.sexId,
 					age: createUserDto.age,
-					email: createUserDto.email,
 				},
 				// Выборка тех полей, которые нужно вернуть (исключены password и uuid)
 				select: {
@@ -105,10 +104,10 @@ export class UserService {
 		}
 	}
 
-	public async getUserByUserName(userName: string): Promise<UserDto> {
+	public async getUserByEmail(email: string): Promise<UserDto> {
 		try {
 			return await this.prismaService.user.findUnique({
-				where: { userName },
+				where: { email },
 				select: {
 					...APP_USER_FIELDS,
 				},

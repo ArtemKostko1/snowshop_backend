@@ -24,9 +24,7 @@ export class AuthService {
 	public async registerUser(dto: RegisterUserDto): Promise<AuthUserResponse> {
 		try {
 			// Получение обьъекта user из базы данных по полю username
-			const existUser = await this.userService.getUserByUserName(
-				dto.userName,
-			);
+			const existUser = await this.userService.getUserByEmail(dto.email);
 
 			// Проверка пользователя на его наличие в базе
 			if (!existUser) {
@@ -68,9 +66,7 @@ export class AuthService {
 	public async loginUser(dto: LoginUserDto): Promise<AuthUserResponse> {
 		try {
 			// Получение объекта пользователя из базы данных по полю username
-			const existUser = await this.userService.getUserByUserName(
-				dto.userName,
-			);
+			const existUser = await this.userService.getUserByEmail(dto.email);
 
 			// Проверка пользователя на его наличие в базе
 			if (!existUser)

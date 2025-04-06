@@ -1,12 +1,11 @@
 const USER_FIELDS = {
 	id: true,
-	userName: true,
+	email: true,
 	password: true,
 	name: true,
 	roleId: true,
 	sexId: true,
 	age: true,
-	email: true,
 	createdAt: true,
 	updatedAt: true,
 };

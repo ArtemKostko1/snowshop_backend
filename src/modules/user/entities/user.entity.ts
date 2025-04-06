@@ -4,8 +4,8 @@ export class UserDto {
 	@IsInt()
 	id: number;
 
-	@IsString()
-	userName: string;
+	@IsEmail()
+	email: string;
 
 	@IsString()
 	password: string;
@@ -21,9 +21,6 @@ export class UserDto {
 
 	@IsNumber()
 	age?: number;
-
-	@IsEmail()
-	email?: string;
 
 	@IsDate()
 	createdAt?: Date;

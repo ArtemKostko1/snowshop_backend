@@ -14,8 +14,8 @@ export class UserResponse {
 	id: number;
 
 	@ApiProperty()
-	@IsString()
-	userName: string;
+	@IsEmail()
+	email: string;
 
 	@ApiProperty()
 	@IsString()
@@ -38,11 +38,6 @@ export class UserResponse {
 	@IsOptional()
 	@IsNumber()
 	age?: number;
-
-	@ApiPropertyOptional()
-	@IsOptional()
-	@IsEmail()
-	email?: string;
 
 	@ApiPropertyOptional()
 	@IsOptional()

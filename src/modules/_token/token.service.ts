@@ -14,7 +14,7 @@ export class TokenService {
 			const payload = {
 				user: {
 					id: user.id,
-					userName: user.userName,
+					email: user.email,
 					name: user.name,
 					role: user.role,
 				},

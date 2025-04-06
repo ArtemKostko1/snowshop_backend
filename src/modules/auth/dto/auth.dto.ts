@@ -12,8 +12,8 @@ import {
 export class RegisterUserDto {
 	@ApiProperty()
 	@IsNotEmpty()
-	@IsString()
-	userName: string;
+	@IsEmail()
+	email: string;
 
 	@ApiProperty()
 	@IsNotEmpty()
@@ -42,11 +42,6 @@ export class RegisterUserDto {
 
 	@ApiPropertyOptional()
 	@IsOptional()
-	@IsEmail()
-	email?: string;
-
-	@ApiPropertyOptional()
-	@IsOptional()
 	@IsDate()
 	createdAt?: Date;
 
@@ -59,8 +54,8 @@ export class RegisterUserDto {
 export class LoginUserDto {
 	@ApiProperty()
 	@IsNotEmpty()
-	@IsString()
-	userName: string;
+	@IsEmail()
+	email: string;
 
 	@ApiProperty()
 	@IsNotEmpty()

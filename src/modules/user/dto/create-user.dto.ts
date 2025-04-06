@@ -11,8 +11,8 @@ import {
 export class CreateUserDto {
 	@ApiProperty()
 	@IsNotEmpty()
-	@IsString()
-	userName: string;
+	@IsEmail()
+	email: string;
 
 	@ApiProperty()
 	@IsNotEmpty()
@@ -38,9 +38,4 @@ export class CreateUserDto {
 	@IsOptional()
 	@IsNumber()
 	age?: number;
-
-	@ApiPropertyOptional()
-	@IsOptional()
-	@IsEmail()
-	email?: string;
 }
