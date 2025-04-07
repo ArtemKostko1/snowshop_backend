@@ -28,8 +28,13 @@ export class AuthService {
 
 			// Проверка пользователя на его наличие в базе
 			if (!existUser) {
+				const newUser = {
+					...dto,
+					roleId: 2,
+				};
+
 				// Создание пользователя в базе данных и получение его объекта
-				const createdUser = await this.userService.createUser(dto);
+				const createdUser = await this.userService.createUser(newUser);
 
 				// Диструкторизация полей объекта existUser без поля password, createdAt и updatedAt
 				const {
