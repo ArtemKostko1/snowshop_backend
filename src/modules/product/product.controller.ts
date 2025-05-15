@@ -25,10 +25,10 @@ export class ProductController {
 	@HttpCode(201)
 	@Roles(Role.ADMIN)
 	@ApiResponse({ status: 201, type: ProductResponse })
-	async createUser(
-		@Body() createUserDto: CreateProductDto,
+	async createProduct(
+		@Body() createProductDto: CreateProductDto,
 	): Promise<ProductResponse> {
-		return this.productService.createProduct(createUserDto);
+		return this.productService.createProduct(createProductDto);
 	}
 
 	// Получение всех товаров
@@ -36,7 +36,7 @@ export class ProductController {
 	@HttpCode(200)
 	@Roles(Role.ADMIN, Role.USER)
 	@ApiResponse({ status: 200, type: ProductResponse })
-	async getAllUsers(): Promise<ProductResponse[]> {
+	async getAllProducts(): Promise<ProductResponse[]> {
 		return this.productService.getAllProducts();
 	}
 
@@ -45,7 +45,7 @@ export class ProductController {
 	@HttpCode(200)
 	@Roles(Role.ADMIN, Role.USER)
 	@ApiResponse({ status: 200, type: ProductResponse })
-	async getUserById(
+	async getProductById(
 		@Param('id') id: number,
 	): Promise<ProductResponse | null> {
 		return this.productService.getProductById(+id);
@@ -56,11 +56,11 @@ export class ProductController {
 	@HttpCode(201)
 	@Roles(Role.ADMIN)
 	@ApiResponse({ status: 201, type: ProductResponse })
-	async updateUser(
+	async updateProduct(
 		@Param('id') id: number,
-		@Body() updateDto: UpdateProductDto,
+		@Body() updateProductDto: UpdateProductDto,
 	): Promise<ProductResponse> {
-		return this.productService.updateProduct(+id, updateDto);
+		return this.productService.updateProduct(+id, updateProductDto);
 	}
 
 	// Удаление товара
@@ -68,7 +68,7 @@ export class ProductController {
 	@HttpCode(200)
 	@Roles(Role.ADMIN)
 	@ApiResponse({ status: 200, type: ProductResponse })
-	async deleteUser(@Param('id') id: number): Promise<boolean> {
+	async deleteProduct(@Param('id') id: number): Promise<boolean> {
 		return this.productService.deleteProduct(+id);
 	}
 }

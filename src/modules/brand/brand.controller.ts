@@ -1,9 +1,20 @@
-import { Controller, Get, HttpCode } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	HttpCode,
+	Param,
+	Patch,
+	Post,
+} from '@nestjs/common';
 import { BrandService } from './brand.service';
 import { Roles } from 'src/common/decorators/decorators';
 import { Role } from 'src/common/constants/role.enum';
 import { ApiResponse } from '@nestjs/swagger';
 import { BrandResponse } from './dto/responses/brand.response';
+import { CreateBrandDto } from './dto/create-brand.dto';
+import { UpdateBrandDto } from './dto/update-brand.dto';
 
 @Controller('brands')
 export class BrandController {
@@ -14,7 +25,48 @@ export class BrandController {
 	@HttpCode(200)
 	@Roles(Role.ADMIN, Role.USER)
 	@ApiResponse({ status: 200, type: BrandResponse })
-	async getAllRoles(): Promise<BrandResponse[]> {
-		return this.brandService.getAllCategories();
+	async getAllBrands(): Promise<BrandResponse[]> {
+		return this.brandService.getAllBrands();
+	}
+
+	// Получение бренда по ID
+	@Get(':id')
+	@HttpCode(200)
+	@Roles(Role.ADMIN, Role.USER)
+	@ApiResponse({ status: 200, type: BrandResponse })
+	async getBrandById(@Param('id') id: number): Promise<BrandResponse | null> {
+		return this.brandService.getBrandById(+id);
+	}
+
+	// Создание бренда
+	@Post('create')
+	@HttpCode(201)
+	@Roles(Role.ADMIN)
+	@ApiResponse({ status: 201, type: BrandResponse })
+	async createBrand(
+		@Body() createBrandDto: CreateBrandDto,
+	): Promise<BrandResponse> {
+		return this.brandService.createBrand(createBrandDto);
+	}
+
+	// Обновление бренда
+	@Patch(':id')
+	@HttpCode(201)
+	@Roles(Role.ADMIN)
+	@ApiResponse({ status: 201, type: BrandResponse })
+	async updateBrand(
+		@Param('id') id: number,
+		@Body() updateBrandDto: UpdateBrandDto,
+	): Promise<BrandResponse> {
+		return this.brandService.updateBrand(+id, updateBrandDto);
+	}
+
+	// Удаление бренда
+	@Delete(':id')
+	@HttpCode(200)
+	@Roles(Role.ADMIN)
+	@ApiResponse({ status: 200, type: BrandResponse })
+	async deleteBrand(@Param('id') id: number): Promise<boolean> {
+		return this.brandService.deleteBrand(+id);
 	}
 }
