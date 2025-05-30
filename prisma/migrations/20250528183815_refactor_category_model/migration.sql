@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Category` ADD COLUMN `value` VARCHAR(255) NOT NULL DEFAULT '';

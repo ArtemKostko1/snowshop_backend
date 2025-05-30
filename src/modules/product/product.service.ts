@@ -15,19 +15,32 @@ import { PRODUCT_FIELDS } from 'src/common/constants/product-fields';
 export class ProductService {
 	constructor(private readonly prismaService: PrismaService) {}
 
+	private transformProduct(product: any): ProductResponse {
+		return {
+			...product,
+			images: Array.isArray(product.images)
+				? product.images.map((img) => img.url)
+				: [],
+		};
+	}
+
 	// Создание товара
 	public async createProduct(
 		createProductDto: CreateProductDto,
 	): Promise<ProductResponse> {
 		try {
-			return await this.prismaService.product.create({
+			const product = await this.prismaService.product.create({
 				data: {
 					...createProductDto,
+					images: createProductDto.images.map((image) => ({
+						url: image,
+					})),
 				},
 				select: {
 					...PRODUCT_FIELDS,
 				},
 			});
+			return this.transformProduct(product);
 		} catch (error) {
 			// Обработка специфических ошибок Prisma
 			if (error instanceof PrismaClientKnownRequestError) {
@@ -43,11 +56,12 @@ export class ProductService {
 	// Получение всех товаров и возврат их клиенту
 	public async getAllProducts(): Promise<ProductResponse[]> {
 		try {
-			return await this.prismaService.product.findMany({
+			const products = await this.prismaService.product.findMany({
 				select: {
 					...PRODUCT_FIELDS,
 				},
 			});
+			return products.map((product) => this.transformProduct(product));
 		} catch (error) {
 			// Обработка специфических ошибок Prisma
 			if (error instanceof PrismaClientKnownRequestError) {
@@ -77,7 +91,7 @@ export class ProductService {
 				);
 			}
 
-			return product;
+			return this.transformProduct(product);
 		} catch (error) {
 			// Обработка специфических ошибок Prisma
 			if (error instanceof PrismaClientKnownRequestError) {
@@ -96,13 +110,19 @@ export class ProductService {
 		updateProductDto: UpdateProductDto,
 	): Promise<ProductResponse> {
 		try {
-			return await this.prismaService.product.update({
+			const product = await this.prismaService.product.update({
 				where: { id },
-				data: updateProductDto,
+				data: {
+					...updateProductDto,
+					images: updateProductDto.images.map((image) => ({
+						url: image,
+					})),
+				},
 				select: {
 					...PRODUCT_FIELDS,
 				},
 			});
+			return this.transformProduct(product);
 		} catch (error) {
 			// Обработка специфических ошибок Prisma
 			if (error instanceof PrismaClientKnownRequestError) {

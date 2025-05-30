@@ -69,6 +69,7 @@ export class CategoryService {
 			return await this.prismaService.category.create({
 				data: {
 					name: createCategoryDto.name,
+					value: createCategoryDto.value,
 				},
 				select: {
 					...CATEGORY_FIELDS,

@@ -34,7 +34,7 @@ export class ProductController {
 	// Получение всех товаров
 	@Get()
 	@HttpCode(200)
-	@Roles(Role.ADMIN, Role.USER)
+	@Roles(Role.ADMIN)
 	@ApiResponse({ status: 200, type: ProductResponse })
 	async getAllProducts(): Promise<ProductResponse[]> {
 		return this.productService.getAllProducts();

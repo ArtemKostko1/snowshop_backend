@@ -44,9 +44,12 @@ model Product {
   brandId       Int
   size          String?  @db.VarChar(100)
   article       String   @db.VarChar(100)
+  articleRoute  String   @db.VarChar(100) @default("")
   inStock       Boolean
   description   String   @db.Text
   internalCode  String   @db.VarChar(100)
+  images        Json     @default("[]")
+
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -57,6 +60,7 @@ model Product {
 model Category {
   id    Int     @id @default(autoincrement())
   name  String  @db.VarChar(255)
+  value String  @db.VarChar(255) @default("")
 
   products Product[]
 }

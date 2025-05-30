@@ -10,6 +10,7 @@ import { SexModule } from '../sex/sex.module';
 import { ProductModule } from '../product/product.module';
 import { CategoryModule } from '../category/category.module';
 import { BrandModule } from '../brand/brand.module';
+import { CatalogModule } from '../catalog/catalog.module';
 
 @Module({
 	imports: [
@@ -22,6 +23,7 @@ import { BrandModule } from '../brand/brand.module';
 		AuthModule,
 		UserModule,
 		ProductModule,
+		CatalogModule,
 		CategoryModule,
 		BrandModule,
 		RoleModule,

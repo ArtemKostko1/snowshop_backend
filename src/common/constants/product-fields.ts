@@ -6,9 +6,11 @@ export const PRODUCT_FIELDS = {
 	brandId: true,
 	size: true,
 	article: true,
+	articleRoute: true,
 	inStock: true,
 	description: true,
 	internalCode: true,
+	images: true,
 	createdAt: true,
 	updatedAt: true,
 };

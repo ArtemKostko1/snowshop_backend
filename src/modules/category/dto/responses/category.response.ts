@@ -6,4 +6,7 @@ export class CategoryResponse {
 
 	@ApiProperty()
 	name: string;
+
+	@ApiProperty()
+	value: string;
 }

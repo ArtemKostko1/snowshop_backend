@@ -1,11 +1,5 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-	IsInt,
-	IsString,
-	IsDate,
-	IsOptional,
-	IsBoolean,
-} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsInt, IsString, IsDate, IsBoolean, IsArray } from 'class-validator';
 
 export class ProductResponse {
 	@ApiProperty()
@@ -28,14 +22,17 @@ export class ProductResponse {
 	@IsInt()
 	brandId: number;
 
-	@ApiPropertyOptional()
-	@IsOptional()
+	@ApiProperty()
 	@IsString()
-	size?: string;
+	size: string;
 
 	@ApiProperty()
 	@IsString()
 	article: string;
+
+	@ApiProperty()
+	@IsString()
+	articleRoute: string;
 
 	@ApiProperty()
 	@IsBoolean()
@@ -48,6 +45,10 @@ export class ProductResponse {
 	@ApiProperty()
 	@IsString()
 	internalCode: string;
+
+	@ApiProperty()
+	@IsArray()
+	images: string[];
 
 	@ApiProperty()
 	@IsDate()

@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+	IsArray,
 	IsBoolean,
 	IsInt,
 	IsNotEmpty,
@@ -41,6 +42,11 @@ export class CreateProductDto {
 
 	@ApiProperty()
 	@IsNotEmpty()
+	@IsString()
+	articleRoute: string;
+
+	@ApiProperty()
+	@IsNotEmpty()
 	@IsBoolean()
 	inStock: boolean;
 
@@ -53,4 +59,10 @@ export class CreateProductDto {
 	@IsNotEmpty()
 	@IsString()
 	internalCode: string;
+
+	@ApiProperty()
+	@IsNotEmpty()
+	@IsArray()
+	@IsString({ each: true })
+	images: string[];
 }
