@@ -101,4 +101,39 @@ export class CatalogService {
 			throw error;
 		}
 	}
+
+	// Получение товаров по категории
+	public async getProductsByCategory(
+		categoryName: string,
+	): Promise<CatalogProductResponse[]> {
+		try {
+			const products = await this.prismaService.product.findMany({
+				where: { category: { value: categoryName } },
+				select: {
+					...PRODUCT_FIELDS,
+				},
+			});
+
+			if (!products || products.length === 0) {
+				throw new HttpException(
+					'Товары указанной категории не найдены',
+					HttpStatus.NOT_FOUND,
+				);
+			}
+
+			const uniqueProducts = this.groupProductsByInternalCode(
+				products,
+			).map((product) => this.transformProduct(product));
+			return uniqueProducts;
+		} catch (error) {
+			// Обработка специфических ошибок Prisma
+			if (error instanceof PrismaClientKnownRequestError) {
+				throw new PrismaKnownException(error);
+			} else if (error instanceof PrismaClientValidationError) {
+				throw new PrismaValidationException(error);
+			}
+			// Обработка иных ошибок
+			throw error;
+		}
+	}
 }

@@ -18,10 +18,21 @@ export class CatalogController {
 		return this.catalogService.getAllCatalogProducts();
 	}
 
+	// Получение товаров по категории
+	@Get('/category/:categoryName')
+	@HttpCode(200)
+	@Roles(Role.USER)
+	@ApiResponse({ status: 200, type: CatalogProductResponse })
+	async getProductByCategory(
+		@Param('categoryName') categoryName: string,
+	): Promise<CatalogProductResponse[]> {
+		return this.catalogService.getProductsByCategory(categoryName);
+	}
+
 	// Получение товара по артиклу запроса
 	@Get(':articleRoute')
 	@HttpCode(200)
-	@Roles(Role.ADMIN, Role.USER)
+	@Roles(Role.USER)
 	@ApiResponse({ status: 200, type: CatalogProductResponse })
 	async getProductByArticleRoute(
 		@Param('articleRoute') articleRoute: string,
