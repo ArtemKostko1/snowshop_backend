@@ -47,6 +47,9 @@ export class CatalogService {
 	public async getAllCatalogProducts(): Promise<CatalogProductResponse[]> {
 		try {
 			const products = await this.prismaService.product.findMany({
+				where: {
+					isDeleted: false,
+				},
 				select: {
 					...PRODUCT_FIELDS,
 				},
@@ -74,7 +77,10 @@ export class CatalogService {
 	): Promise<CatalogProductResponse> {
 		try {
 			const products = await this.prismaService.product.findMany({
-				where: { articleRoute },
+				where: {
+					articleRoute,
+					isDeleted: false,
+				},
 				select: {
 					...PRODUCT_FIELDS,
 				},
@@ -108,7 +114,10 @@ export class CatalogService {
 	): Promise<CatalogProductResponse[]> {
 		try {
 			const products = await this.prismaService.product.findMany({
-				where: { category: { value: categoryName } },
+				where: {
+					category: { value: categoryName },
+					isDeleted: false,
+				},
 				select: {
 					...PRODUCT_FIELDS,
 				},

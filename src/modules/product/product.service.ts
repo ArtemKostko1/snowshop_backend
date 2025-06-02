@@ -57,6 +57,9 @@ export class ProductService {
 	public async getAllProducts(): Promise<ProductResponse[]> {
 		try {
 			const products = await this.prismaService.product.findMany({
+				where: {
+					isDeleted: false,
+				},
 				select: {
 					...PRODUCT_FIELDS,
 				},
@@ -77,8 +80,11 @@ export class ProductService {
 	// Получение товара по идентификатору и возврат его клиенту
 	public async getProductById(id: number): Promise<ProductResponse> {
 		try {
-			const product = await this.prismaService.product.findUnique({
-				where: { id },
+			const product = await this.prismaService.product.findFirst({
+				where: {
+					id,
+					isDeleted: false,
+				},
 				select: {
 					...PRODUCT_FIELDS,
 				},
@@ -138,8 +144,12 @@ export class ProductService {
 	// Удаление товара и возврат результата удаление клиенту
 	public async deleteProduct(id: number): Promise<boolean> {
 		try {
-			await this.prismaService.product.delete({
+			await this.prismaService.product.update({
 				where: { id },
+				data: {
+					isDeleted: true,
+					deletedAt: new Date(),
+				},
 			});
 			return true;
 		} catch (error) {

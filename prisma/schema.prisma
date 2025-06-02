@@ -8,18 +8,20 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  email      String   @unique
-  password   String
-  name       String
-  roleId     Int
-  sexId      Int?
-  age        Int?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  name        String
+  roleId      Int
+  sexId       Int?
+  age         Int?
+  phoneNumber String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   role       Role     @relation(fields: [roleId], references: [id])
   sex        Sex?     @relation(fields: [sexId], references: [id])
+  orders     Order[]
 }
 
 model Role {
@@ -49,12 +51,15 @@ model Product {
   description   String   @db.Text
   internalCode  String   @db.VarChar(100)
   images        Json     @default("[]")
+  isDeleted     Boolean  @default(false)
+  deletedAt     DateTime?
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   category      Category @relation(fields: [categoryId], references: [id])
   brand         Brand    @relation(fields: [brandId], references: [id])
+  orderItems    OrderItem[]
 }
 
 model Category {
@@ -70,4 +75,36 @@ model Brand {
   name  String  @db.VarChar(255)
 
   products Product[]
+}
+
+model Order {
+  id            Int       @id @default(autoincrement())
+  email         String    @db.VarChar(255)
+  phoneNumber   String    @db.VarChar(100)
+  userId        Int?
+  status        String    @db.VarChar(50) @default("pending")
+  totalPrice    Float
+  delivery      String    @db.Text
+  paymentMethod String    @db.Text
+  comment       String?   @db.Text
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  orderItems    OrderItem[]
+  user          User?     @relation(fields: [userId], references: [id])
+}
+
+model OrderItem {
+  id            Int       @id @default(autoincrement())
+  orderId       Int
+  productId     Int?
+  quantity      Int
+  price         Float
+  productName     String    @db.VarChar(255)
+  productInternalCode  String    @db.VarChar(100)
+  productSize     String?   @db.VarChar(100)
+  productImage    String    @default("")
+
+  order           Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product         Product?  @relation(fields: [productId], references: [id], onDelete: SetNull)
 }
