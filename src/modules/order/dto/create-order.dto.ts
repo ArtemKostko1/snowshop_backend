@@ -13,8 +13,13 @@ import { Type } from 'class-transformer';
 export class OrderItemDto {
 	@ApiProperty()
 	@IsNotEmpty()
-	@IsNumber()
-	productId: number;
+	@IsString()
+	productInternalCode: string;
+
+	@ApiProperty()
+	@IsNotEmpty()
+	@IsString()
+	productSize: string;
 
 	@ApiProperty()
 	@IsNotEmpty()

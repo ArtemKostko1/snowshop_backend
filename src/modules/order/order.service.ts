@@ -24,14 +24,15 @@ export class OrderService {
 				createOrderDto.orderItems.map(async (item) => {
 					const product = await this.prismaService.product.findFirst({
 						where: {
-							id: item.productId,
+							internalCode: item.productInternalCode,
+							size: item.productSize,
 							isDeleted: false,
 						},
 					});
 
 					if (!product) {
 						throw new HttpException(
-							`Товар с ID ${item.productId} не найден`,
+							`Товар с внутренним кодом ${item.productInternalCode} и размером ${item.productSize} не найден`,
 							HttpStatus.NOT_FOUND,
 						);
 					}
@@ -46,7 +47,8 @@ export class OrderService {
 						productImage:
 							Array.isArray(product.images) &&
 							product.images.length > 0
-								? String(product.images[0])
+								? (product.images[0] as any).url ||
+									String(product.images[0])
 								: '',
 					};
 				}),

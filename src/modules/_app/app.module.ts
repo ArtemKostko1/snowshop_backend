@@ -11,6 +11,7 @@ import { ProductModule } from '../product/product.module';
 import { CategoryModule } from '../category/category.module';
 import { BrandModule } from '../brand/brand.module';
 import { CatalogModule } from '../catalog/catalog.module';
+import { OrderModule } from '../order/order.module';
 
 @Module({
 	imports: [
@@ -28,6 +29,7 @@ import { CatalogModule } from '../catalog/catalog.module';
 		BrandModule,
 		RoleModule,
 		SexModule,
+		OrderModule,
 	],
 	controllers: [],
 	providers: [],
