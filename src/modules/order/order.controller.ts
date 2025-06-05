@@ -7,16 +7,23 @@ import {
 	Param,
 	Delete,
 	HttpCode,
+	UseGuards,
+	ValidationPipe,
+	UsePipes,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/decorators';
 import { Role } from 'src/common/constants/role.enum';
 import { OrderResponse } from './dto/responses/order.response';
+import { RolesGuard } from 'src/guards/roles.guard';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
 @Controller('orders')
+@ApiTags('ORDERS')
+@UsePipes(ValidationPipe)
 export class OrderController {
 	constructor(private readonly orderService: OrderService) {}
 
@@ -34,14 +41,27 @@ export class OrderController {
 	@Get()
 	@HttpCode(200)
 	@Roles(Role.ADMIN)
-	@ApiResponse({ status: 200, type: [OrderResponse] })
+	@UseGuards(JwtAuthGuard, RolesGuard)
+	@ApiResponse({ status: 200, type: OrderResponse })
 	async getAllOrders(): Promise<OrderResponse[]> {
 		return this.orderService.getAllOrders();
 	}
 
 	// Получение заказа по ID
+	@Get('/order-history/:id')
+	@HttpCode(200)
+	@Roles(Role.USER)
+	@UseGuards(JwtAuthGuard, RolesGuard)
+	@ApiResponse({ status: 200, type: OrderResponse })
+	async getOrdersByUserId(@Param('id') id: number): Promise<OrderResponse[]> {
+		return this.orderService.getOrdersByUserId(+id);
+	}
+
+	// Получение заказа по ID
 	@Get(':id')
 	@HttpCode(200)
+	@Roles(Role.ADMIN, Role.USER)
+	@UseGuards(JwtAuthGuard, RolesGuard)
 	@ApiResponse({ status: 200, type: OrderResponse })
 	async getOrderById(@Param('id') id: number): Promise<OrderResponse | null> {
 		return this.orderService.getOrderById(+id);
@@ -51,6 +71,7 @@ export class OrderController {
 	@Patch(':id')
 	@HttpCode(201)
 	@Roles(Role.ADMIN)
+	@UseGuards(JwtAuthGuard, RolesGuard)
 	@ApiResponse({ status: 201, type: OrderResponse })
 	async updateOrder(
 		@Param('id') id: number,
@@ -63,6 +84,7 @@ export class OrderController {
 	@Delete(':id')
 	@HttpCode(200)
 	@Roles(Role.ADMIN)
+	@UseGuards(JwtAuthGuard, RolesGuard)
 	@ApiResponse({ status: 200, type: Boolean })
 	async deleteOrder(@Param('id') id: number): Promise<boolean> {
 		return this.orderService.deleteOrder(+id);

@@ -36,6 +36,10 @@ export class OrderItemResponse {
 
 	@ApiProperty()
 	@IsString()
+	productArticle: string;
+
+	@ApiProperty()
+	@IsString()
 	productInternalCode: string;
 
 	@ApiProperty({ nullable: true })

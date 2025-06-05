@@ -1,18 +1,24 @@
-import { Controller, Get, Param, HttpCode } from '@nestjs/common';
+import {
+	Controller,
+	Get,
+	Param,
+	HttpCode,
+	ValidationPipe,
+	UsePipes,
+} from '@nestjs/common';
 import { CatalogService } from './catalog.service';
-import { ApiResponse } from '@nestjs/swagger';
-import { Roles } from 'src/common/decorators/decorators';
-import { Role } from 'src/common/constants/role.enum';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CatalogProductResponse } from './dto/responses/catalog.response';
 
 @Controller('catalog')
+@ApiTags('CATALOG')
+@UsePipes(ValidationPipe)
 export class CatalogController {
 	constructor(private readonly catalogService: CatalogService) {}
 
 	// Получение всех товаров каталога
 	@Get()
 	@HttpCode(200)
-	@Roles(Role.USER)
 	@ApiResponse({ status: 200, type: CatalogProductResponse })
 	async getAllCatalogProducts(): Promise<CatalogProductResponse[]> {
 		return this.catalogService.getAllCatalogProducts();
@@ -21,7 +27,6 @@ export class CatalogController {
 	// Получение товаров по категории
 	@Get('/category/:categoryName')
 	@HttpCode(200)
-	@Roles(Role.USER)
 	@ApiResponse({ status: 200, type: CatalogProductResponse })
 	async getProductByCategory(
 		@Param('categoryName') categoryName: string,
@@ -32,7 +37,6 @@ export class CatalogController {
 	// Получение товара по артиклу запроса
 	@Get(':articleRoute')
 	@HttpCode(200)
-	@Roles(Role.USER)
 	@ApiResponse({ status: 200, type: CatalogProductResponse })
 	async getProductByArticleRoute(
 		@Param('articleRoute') articleRoute: string,

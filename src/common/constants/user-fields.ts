@@ -6,6 +6,7 @@ const USER_FIELDS = {
 	roleId: true,
 	sexId: true,
 	age: true,
+	phoneNumber: true,
 	createdAt: true,
 	updatedAt: true,
 };

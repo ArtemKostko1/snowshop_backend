@@ -37,14 +37,9 @@ export class AuthService {
 				const createdUser = await this.userService.createUser(newUser);
 
 				// Диструкторизация полей объекта existUser без поля password, createdAt и updatedAt
-				const {
-					roleId,
-					sexId,
-					password,
-					createdAt,
-					updatedAt,
-					...tempUser
-				} = createdUser;
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
+				const { roleId, password, createdAt, updatedAt, ...tempUser } =
+					createdUser;
 
 				const role = await this.roleService.getRoleById(
 					createdUser.roleId,
@@ -88,15 +83,10 @@ export class AuthService {
 			if (!validatePassword)
 				throw new BadRequestException(AppErrors.INVALIAD_PASSWORD);
 
-			// Диструкторизация полей объекта existUser без поля password, uuid, inserted_at и updated_at
-			const {
-				roleId,
-				sexId,
-				password,
-				createdAt,
-				updatedAt,
-				...tempUser
-			} = existUser;
+			// Диструкторизация полей объекта existUser без поля password, createdAt и updatedAt
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			const { roleId, password, createdAt, updatedAt, ...tempUser } =
+				existUser;
 
 			const role = await this.roleService.getRoleById(existUser.roleId);
 
@@ -126,6 +116,7 @@ export class AuthService {
 				encryptedUserPassword,
 			);
 		} catch (error) {
+			console.log(error);
 			throw new Error(AppErrors.DECRYPTION_ERROR);
 		}
 	}

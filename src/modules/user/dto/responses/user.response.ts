@@ -48,4 +48,9 @@ export class UserResponse {
 	@IsOptional()
 	@IsDate()
 	updatedAt?: Date;
+
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsString()
+	phoneNumber?: string;
 }

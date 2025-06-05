@@ -1,13 +1,5 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-	IsDate,
-	IsEmail,
-	IsInt,
-	IsNotEmpty,
-	IsNumber,
-	IsOptional,
-	IsString,
-} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class RegisterUserDto {
 	@ApiProperty()
@@ -24,31 +16,6 @@ export class RegisterUserDto {
 	@IsNotEmpty()
 	@IsString()
 	name: string;
-
-	@ApiProperty()
-	@IsNotEmpty()
-	@IsInt()
-	roleId: number;
-
-	@ApiPropertyOptional()
-	@IsNotEmpty()
-	@IsInt()
-	sexId?: number;
-
-	@ApiPropertyOptional()
-	@IsOptional()
-	@IsNumber()
-	age?: number;
-
-	@ApiPropertyOptional()
-	@IsOptional()
-	@IsDate()
-	createdAt?: Date;
-
-	@ApiPropertyOptional()
-	@IsOptional()
-	@IsDate()
-	updatedAt?: Date;
 }
 
 export class LoginUserDto {

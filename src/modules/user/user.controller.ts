@@ -20,12 +20,12 @@ import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { Roles } from 'src/common/decorators/decorators';
 import { Role } from 'src/common/constants/role.enum';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Controller('users')
 @ApiTags('USERS')
 @UsePipes(ValidationPipe)
 @UseGuards(JwtAuthGuard, RolesGuard)
-@UseGuards(JwtAuthGuard)
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 
@@ -61,13 +61,24 @@ export class UserController {
 	// Обновление пользователя
 	@Patch(':id')
 	@HttpCode(201)
-	@Roles(Role.ADMIN)
+	@Roles(Role.ADMIN, Role.USER)
 	@ApiResponse({ status: 201, type: UserResponse })
 	async updateUser(
 		@Param('id') id: number,
 		@Body() updateDto: UpdateUserDto,
 	): Promise<UserResponse> {
 		return this.userService.updateUser(+id, updateDto);
+	}
+
+	// Смена пароля пользователя
+	@Post('change-password')
+	@HttpCode(200)
+	@Roles(Role.ADMIN, Role.USER)
+	@ApiResponse({ status: 200, type: Boolean })
+	async changePassword(
+		@Body() changePasswordDto: ChangePasswordDto,
+	): Promise<boolean> {
+		return this.userService.updateUserPassword(changePasswordDto);
 	}
 
 	// Удаление пользователя

@@ -7,23 +7,29 @@ import {
 	Param,
 	Patch,
 	Post,
+	UseGuards,
+	UsePipes,
+	ValidationPipe,
 } from '@nestjs/common';
 import { BrandService } from './brand.service';
 import { Roles } from 'src/common/decorators/decorators';
 import { Role } from 'src/common/constants/role.enum';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BrandResponse } from './dto/responses/brand.response';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/guards/roles.guard';
 
 @Controller('brands')
+@ApiTags('BRANDS')
+@UsePipes(ValidationPipe)
 export class BrandController {
 	constructor(private readonly brandService: BrandService) {}
 
 	// Получение всех брендов
 	@Get()
 	@HttpCode(200)
-	@Roles(Role.ADMIN, Role.USER)
 	@ApiResponse({ status: 200, type: BrandResponse })
 	async getAllBrands(): Promise<BrandResponse[]> {
 		return this.brandService.getAllBrands();
@@ -32,7 +38,6 @@ export class BrandController {
 	// Получение бренда по ID
 	@Get(':id')
 	@HttpCode(200)
-	@Roles(Role.ADMIN, Role.USER)
 	@ApiResponse({ status: 200, type: BrandResponse })
 	async getBrandById(@Param('id') id: number): Promise<BrandResponse | null> {
 		return this.brandService.getBrandById(+id);
@@ -42,6 +47,7 @@ export class BrandController {
 	@Post('create')
 	@HttpCode(201)
 	@Roles(Role.ADMIN)
+	@UseGuards(JwtAuthGuard, RolesGuard)
 	@ApiResponse({ status: 201, type: BrandResponse })
 	async createBrand(
 		@Body() createBrandDto: CreateBrandDto,
@@ -53,6 +59,7 @@ export class BrandController {
 	@Patch(':id')
 	@HttpCode(201)
 	@Roles(Role.ADMIN)
+	@UseGuards(JwtAuthGuard, RolesGuard)
 	@ApiResponse({ status: 201, type: BrandResponse })
 	async updateBrand(
 		@Param('id') id: number,
@@ -65,6 +72,7 @@ export class BrandController {
 	@Delete(':id')
 	@HttpCode(200)
 	@Roles(Role.ADMIN)
+	@UseGuards(JwtAuthGuard, RolesGuard)
 	@ApiResponse({ status: 200, type: BrandResponse })
 	async deleteBrand(@Param('id') id: number): Promise<boolean> {
 		return this.brandService.deleteBrand(+id);

@@ -33,6 +33,11 @@ export class UserResponse {
 	@IsOptional()
 	@IsNumber()
 	age?: number;
+
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsString()
+	phoneNumber?: string;
 }
 
 export class AuthUserResponse {

@@ -101,6 +101,7 @@ model OrderItem {
   quantity      Int
   price         Float
   productName     String    @db.VarChar(255)
+  productArticle  String    @db.VarChar(255) @default("")
   productInternalCode  String    @db.VarChar(100)
   productSize     String?   @db.VarChar(100)
   productImage    String    @default("")

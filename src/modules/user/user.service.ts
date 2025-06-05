@@ -13,6 +13,7 @@ import {
 } from '@prisma/client/runtime/library';
 import { PrismaKnownException } from '../../common/utils/ExceptionFilter/prismaKnownException';
 import { PrismaValidationException } from '../../common/utils/ExceptionFilter/prismaValidationException';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class UserService {
@@ -38,6 +39,7 @@ export class UserService {
 					roleId: createUserDto.roleId,
 					sexId: createUserDto.sexId,
 					age: createUserDto.age,
+					phoneNumber: createUserDto.phoneNumber,
 				},
 				// Выборка тех полей, которые нужно вернуть (исключены password и uuid)
 				select: {
@@ -173,6 +175,71 @@ export class UserService {
 			} else if (error instanceof PrismaClientValidationError) {
 				throw new PrismaValidationException(error);
 			}
+			// Обработка иных ошибок
+			throw error;
+		}
+	}
+
+	public async updateUserPassword(
+		changePasswordDto: ChangePasswordDto,
+	): Promise<boolean> {
+		try {
+			// Получаем пользователя по ID
+			const user = await this.prismaService.user.findUnique({
+				where: { id: changePasswordDto.userId },
+				select: {
+					...APP_USER_FIELDS,
+				},
+			});
+
+			if (!user) {
+				throw new HttpException(
+					'Пользователь не найден',
+					HttpStatus.NOT_FOUND,
+				);
+			}
+
+			// Проверяем, совпадает ли текущий пароль
+			const isPasswordValid =
+				await this.hashPasswordService.comparePasswords(
+					changePasswordDto.currentPassword,
+					user.password,
+				);
+
+			if (!isPasswordValid) {
+				throw new HttpException(
+					'Текущий пароль указан неверно',
+					HttpStatus.BAD_REQUEST,
+				);
+			}
+
+			// Хешируем новый пароль
+			const hashedPassword = await this.hashPasswordService.hashPassword(
+				changePasswordDto.newPassword,
+			);
+
+			// Обновляем пароль пользователя
+			await this.prismaService.user.update({
+				where: { id: changePasswordDto.userId },
+				data: {
+					password: hashedPassword,
+				},
+			});
+
+			return true;
+		} catch (error) {
+			// Если ошибка уже обработана (HttpException), пробрасываем её дальше
+			if (error instanceof HttpException) {
+				throw error;
+			}
+
+			// Обработка специфических ошибок Prisma
+			if (error instanceof PrismaClientKnownRequestError) {
+				throw new PrismaKnownException(error);
+			} else if (error instanceof PrismaClientValidationError) {
+				throw new PrismaValidationException(error);
+			}
+
 			// Обработка иных ошибок
 			throw error;
 		}

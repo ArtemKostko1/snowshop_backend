@@ -22,6 +22,9 @@ export class UserDto {
 	@IsNumber()
 	age?: number;
 
+	@IsString()
+	phoneNumber?: string;
+
 	@IsDate()
 	createdAt?: Date;
 

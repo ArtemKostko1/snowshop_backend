@@ -38,4 +38,9 @@ export class CreateUserDto {
 	@IsOptional()
 	@IsNumber()
 	age?: number;
+
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsString()
+	phoneNumber?: string;
 }

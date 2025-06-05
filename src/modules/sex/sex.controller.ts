@@ -24,7 +24,7 @@ export class SexController {
 	// Получение всех полов
 	@Get()
 	@HttpCode(200)
-	@Roles(Role.ADMIN, Role.USER)
+	@Roles(Role.ADMIN)
 	@ApiResponse({ status: 200, type: SexResponse })
 	async getAllSex(): Promise<SexResponse[]> {
 		return this.sexService.getAllSex();

@@ -7,16 +7,24 @@ import {
 	Param,
 	Delete,
 	HttpCode,
+	UsePipes,
+	ValidationPipe,
+	UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/decorators';
 import { Role } from 'src/common/constants/role.enum';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { ProductResponse } from './dto/responses/product.response';
+import { RolesGuard } from 'src/guards/roles.guard';
 
 @Controller('products')
+@ApiTags('PRODUCTS')
+@UsePipes(ValidationPipe)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class ProductController {
 	constructor(private readonly productService: ProductService) {}
 
@@ -43,7 +51,7 @@ export class ProductController {
 	// Получение товара по ID
 	@Get(':id')
 	@HttpCode(200)
-	@Roles(Role.ADMIN, Role.USER)
+	@Roles(Role.ADMIN)
 	@ApiResponse({ status: 200, type: ProductResponse })
 	async getProductById(
 		@Param('id') id: number,

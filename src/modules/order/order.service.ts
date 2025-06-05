@@ -42,6 +42,7 @@ export class OrderService {
 						quantity: item.quantity,
 						price: product.price,
 						productName: product.name,
+						productArticle: product.article,
 						productInternalCode: product.internalCode,
 						productSize: product.size,
 						productImage:
@@ -102,6 +103,36 @@ export class OrderService {
 				},
 			});
 			return orders as unknown as OrderResponse[];
+		} catch (error) {
+			// Обработка специфических ошибок Prisma
+			if (error instanceof PrismaClientKnownRequestError) {
+				throw new PrismaKnownException(error);
+			} else if (error instanceof PrismaClientValidationError) {
+				throw new PrismaValidationException(error);
+			}
+			// Обработка иных ошибок
+			throw error;
+		}
+	}
+
+	// Получение заказа по ID
+	public async getOrdersByUserId(id: number): Promise<OrderResponse[]> {
+		try {
+			const order = await this.prismaService.order.findMany({
+				where: { userId: id },
+				include: {
+					orderItems: true,
+				},
+			});
+
+			if (!order) {
+				throw new HttpException(
+					'Заказ с указанным идентификатором не найден',
+					HttpStatus.NOT_FOUND,
+				);
+			}
+
+			return order;
 		} catch (error) {
 			// Обработка специфических ошибок Prisma
 			if (error instanceof PrismaClientKnownRequestError) {
