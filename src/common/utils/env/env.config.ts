@@ -51,7 +51,7 @@ export const getJWTSecret = () => {
 };
 
 export const getJWTExpire = () => {
-	const DEFAULT_JWT_EXPIRE = '15m';
+	const DEFAULT_JWT_EXPIRE = '1h';
 	const envJWTExpire = process.env.JWT_EXPIRE;
 
 	if (envJWTExpire) return envJWTExpire;
